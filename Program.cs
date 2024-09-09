@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-namespace tinhdiemhkcs
+using DLL;
+namespace CS_testdll
 {
     internal class Program
     {
         static void Main(string[] args)
         {
+            // Tạo một đối tượng từ DLL
+            Class1 calculator = new Class1();
+
             // Nhập điểm thi
             Console.Write("Nhập điểm thi (0 - 10): ");
             double examScore = Convert.ToDouble(Console.ReadLine());
@@ -16,20 +19,19 @@ namespace tinhdiemhkcs
             Console.Write("Nhập điểm trên lớp (0 - 10): ");
             double classScore = Convert.ToDouble(Console.ReadLine());
 
-            // Kiểm tra xem điểm có hợp lệ không (phải trong khoảng từ 0 đến 10)
-            if (examScore >= 0 && examScore <= 10 && classScore >= 0 && classScore <= 10)
+            try
             {
-                // Tính điểm học kỳ
-                double finalScore = examScore * 0.6 + classScore * 0.4;
+                // Sử dụng DLL để tính điểm học kỳ
+                double finalScore = calculator.CalculateFinalScore(examScore, classScore);
 
                 // In ra kết quả
-                Console.WriteLine($"Điểm học kỳ của bạn là: {finalScore}");
+                Console.WriteLine($"Điểm học kỳ là: {finalScore}");
             }
-            else
+            catch (ArgumentException ex)
             {
-                Console.WriteLine("Điểm không hợp lệ. Vui lòng nhập điểm từ 0 đến 10.");
+                // Bắt lỗi nếu điểm không hợp lệ
+                Console.WriteLine(ex.Message);
             }
-            Console.ReadKey();
         }
     }
 }
